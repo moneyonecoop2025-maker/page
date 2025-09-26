@@ -1,0 +1,342 @@
+<!doctype html>
+<html lang="pt-BR">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>MoneyOne — Controle Financeiro Simples</title>
+  <meta name="description" content="MoneyOne - Sistema de controle financeiro mensal. Organize receitas, despesas e gere relatórios com facilidade." />
+  <meta name="keywords" content="controle financeiro, gestão de finanças, sistema financeiro online, relatórios financeiros, planilhas online, moneyone">
+  <meta name="author" content="MoneyOne">
+  <meta name="theme-color" content="#0f172a">
+
+  <!-- Open Graph -->
+  <meta property="og:title" content="MoneyOne — Controle Financeiro Simples">
+  <meta property="og:description" content="Gerencie suas finanças sem planilhas. Plataforma moderna, segura e eficaz para empresas e autônomos.">
+  <meta property="og:image" content="imagens/preview.png">
+  <meta property="og:type" content="website">
+  <meta property="og:url" content="https://moneyone.com.br">
+
+  <!-- Twitter -->
+  <meta name="twitter:card" content="summary_large_image">
+
+  <!-- Favicon -->
+  <link rel="icon" type="image/png" href="imagens/favicon.png">
+
+  <style>
+    :root {
+      --accent:#16a34a;
+      --dark:#0f172a;
+      --muted:#94a3b8;
+      --card:#1e293b;
+    }
+    *{box-sizing:border-box}
+    body{
+      font-family:Inter, system-ui, -apple-system, 'Segoe UI', Roboto, 'Helvetica Neue', Arial;
+      margin:0;
+      color:#f8fafc;
+      background:var(--dark);
+      line-height:1.5;
+    }
+
+    /* INTRO */
+    .intro{position:fixed;top:0;left:0;width:100%;height:100%;background:var(--dark);
+      display:flex;justify-content:center;align-items:center;flex-direction:column;
+      z-index:9999;transition:opacity 1s ease,visibility 1s ease}
+    .intro img{width:120px;height:auto;border-radius:12px;animation:pulse 2s infinite}
+    .intro h1{margin-top:20px;color:var(--accent);font-size:22px;animation:fadeInUp 2s ease}
+    .intro.hidden{opacity:0;visibility:hidden}
+    @keyframes pulse{0%{transform:scale(1)}50%{transform:scale(1.08)}100%{transform:scale(1)}}
+    @keyframes fadeInUp{from{opacity:0;transform:translateY(20px)}to{opacity:1;transform:translateY(0)}}
+
+    .container{max-width:1100px;margin:0 auto;padding:32px}
+    header{display:flex;align-items:center;justify-content:space-between;padding:12px 0;position:relative}
+    .brand{display:flex;gap:12px;align-items:center}
+    .logo img{width:100px;height:auto;border-radius:8px}
+    nav{display:flex;gap:18px}
+    nav a{color:var(--muted);text-decoration:none;font-weight:600}
+    nav a:hover{color:var(--accent)}
+    .menu-toggle{display:none;flex-direction:column;gap:5px;cursor:pointer}
+    .menu-toggle span{width:26px;height:3px;background:#f8fafc;border-radius:3px;transition:.3s}
+    .hero{display:grid;grid-template-columns:1fr 460px;gap:32px;align-items:center;padding:36px 0}
+    .eyebrow{color:var(--accent);font-weight:700}
+    h1{font-size:34px;margin:10px 0;line-height:1.05;color:#fff}
+    h2{font-size:26px;margin-bottom:12px;color:#fff}
+    p.lead{color:var(--muted);font-size:16px}
+    .cta{margin-top:18px}
+    .btn{display:inline-block;padding:12px 20px;border-radius:10px;
+      background:linear-gradient(135deg, #16a34a, #22c55e);color:#fff;text-decoration:none;
+      font-weight:700;transition:.3s}
+    .btn:hover{opacity:0.9;transform:scale(1.03)}
+    .btn.secondary{background:transparent;border:2px solid var(--accent);color:var(--accent);margin-left:12px}
+    .feature-cards{display:grid;grid-template-columns:repeat(3,1fr);gap:14px;margin-top:28px}
+    .card{background:var(--card);padding:18px;border-radius:12px;box-shadow:0 6px 18px rgba(11,23,39,0.3);color:#fff;transition:.3s}
+    .card:hover{transform:translateY(-6px)}
+    .card i{margin-right:6px;color:var(--accent)}
+    .section{padding:40px 0}
+    .grid-2{display:grid;grid-template-columns:1fr 1fr;gap:28px;align-items:center}
+    .bullets{list-style:none;padding:0;margin:0;color:#fff}
+    .bullets li{padding:8px 0;display:flex;align-items:center;gap:8px}
+    .bullets i{color:var(--accent)}
+    footer{padding:28px 0;color:var(--muted);font-size:14px;border-top:1px solid rgba(255,255,255,0.1);margin-top:40px}
+
+    /* Pricing */
+    .pricing{display:flex;gap:16px;flex-wrap:wrap}
+    .pricing .plan{background:var(--card);padding:22px;border-radius:16px;flex:1;
+      box-shadow:0 8px 30px rgba(11,23,39,0.4);color:#fff;position:relative;
+      border:2px solid transparent;transition:transform .3s,border .3s}
+    .pricing .plan:hover{transform:translateY(-5px);border:2px solid var(--accent)}
+    .pricing .plan.destacado{border:2px solid var(--accent);box-shadow:0 12px 40px rgba(0,0,0,0.6)}
+    .etiqueta-popular{position:absolute;top:-12px;left:50%;transform:translateX(-50%);
+      background:var(--accent);color:#fff;padding:6px 16px;border-radius:20px;font-size:13px;font-weight:bold;
+      box-shadow:0 4px 10px rgba(0,0,0,0.3)}
+    .valor-antigo{text-decoration:line-through;color:#f87171;font-size:16px;margin-top:-10px;margin-bottom:12px}
+    .selo-desconto{position:absolute;top:12px;right:12px;background:#ef4444;color:#fff;
+      padding:8px 14px;border-radius:50px;font-size:15px;font-weight:bold;
+      box-shadow:0 4px 10px rgba(0,0,0,0.4);transform:rotate(-10deg)}
+
+    .testimonial{background:var(--card);padding:18px;border-radius:12px;box-shadow:0 6px 18px rgba(11,23,39,0.3);color:#fff}
+    .avatar{width:50px;height:50px;border-radius:50%;object-fit:cover;border:2px solid var(--accent)}
+
+    /* Carrossel */
+    .carousel{position:relative;overflow:hidden;width:100%;max-width:460px;height:320px;
+      border-radius:12px;box-shadow:0 10px 30px rgba(0,0,0,0.4);background:#1e293b}
+    .carousel-track{display:flex;transition:transform .6s ease-in-out;width:100%;height:100%}
+    .carousel img{min-width:100%;height:100%;object-fit:contain;border-radius:8px}
+    .carousel-btn{position:absolute;top:50%;transform:translateY(-50%);
+      background:rgba(0,0,0,0.4);border:none;color:#fff;font-size:22px;cursor:pointer;
+      padding:8px 12px;border-radius:6px}
+    .carousel-btn.prev{left:10px}
+    .carousel-btn.next{right:10px}
+    .carousel-dots{position:absolute;bottom:10px;left:50%;transform:translateX(-50%);display:flex;gap:6px}
+    .carousel-dots button{width:10px;height:10px;border-radius:50%;border:none;background:#64748b;cursor:pointer}
+    .carousel-dots button.active{background:var(--accent)}
+
+    /* WhatsApp Button */
+    .whatsapp-float {
+      position:fixed;bottom:20px;right:20px;
+      background:#25D366;color:#fff;
+      padding:14px;border-radius:50%;
+      box-shadow:0 6px 18px rgba(0,0,0,0.3);
+      display:flex;align-items:center;justify-content:center;
+      font-size:24px;z-index:999;
+      transition:.3s;
+    }
+    .whatsapp-float:hover { transform:scale(1.1); }
+
+    /* FAQ */
+    .faq{margin-top:32px}
+    .faq-item{background:var(--card);padding:16px;border-radius:12px;margin-bottom:12px;cursor:pointer}
+    .faq-item h3{margin:0;font-size:18px;color:#fff}
+    .faq-item p{margin-top:8px;color:var(--muted);display:none}
+    .faq-item.active p{display:block}
+
+    /* Responsividade */
+    @media(max-width:900px){
+      .hero{grid-template-columns:1fr}
+      .feature-cards{grid-template-columns:1fr}
+      .grid-2{grid-template-columns:1fr}
+      .carousel{height:220px}
+    }
+    @media(max-width:768px){
+      nav{display:none;flex-direction:column;position:absolute;top:60px;right:0;background:#1e293b;padding:20px;border-radius:12px;box-shadow:0 6px 18px rgba(0,0,0,0.3)}
+      nav.show{display:flex}
+      .menu-toggle{display:flex}
+    }
+  </style>
+  <script src="https://unpkg.com/lucide@latest"></script>
+</head>
+<body>
+  <!-- INTRO -->
+  <div class="intro" id="intro">
+    <img src="imagens/WhatsApp Image 2025-09-25 at 15.58.05.jpeg" alt="Logo MoneyOne">
+    <h1>Bem-vindo ao MoneyOne</h1>
+  </div>
+
+  <div class="container">
+    <header>
+      <div class="brand">
+        <div class="logo">
+          <img src="imagens/WhatsApp Image 2025-09-25 at 15.58.05.jpeg" alt="Logo MoneyOne">
+        </div>
+        <div style="color:var(--muted)">Controle financeiro mensal</div>
+      </div>
+      <div class="menu-toggle" id="menu-toggle"><span></span><span></span><span></span></div>
+      <nav id="menu">
+        <a href="#features">Recursos</a>
+        <a href="#pricing">Preços</a>
+        <a href="#faq">FAQ</a>
+        <a href="#contact">Contato</a>
+      </nav>
+    </header>
+
+    <main>
+      <!-- Hero -->
+      <section class="hero">
+        <div>
+          <div class="eyebrow">Organize sua rotina financeira</div>
+          <h1>Controle suas finanças em 3 minutos por dia</h1>
+          <p class="lead">MoneyOne é um sistema simples e poderoso para pequenas empresas e autônomos. Cadastre receitas, despesas e gere relatórios mensais sem complicação.</p>
+          <p class="lead">Mais do que substituir planilhas: entregamos uma plataforma sólida, moderna e eficaz para o controle total das suas finanças</p>
+          <div class="cta">
+            <a class="btn" href="https://pay.kiwify.com.br/rnMjuCC" target="_blank">Comece Agora</a>
+            <a class="btn secondary" href="#features">Saiba Mais</a>
+          </div>
+          <div class="feature-cards">
+            <div class="card"><i data-lucide="bar-chart"></i><strong>Relatórios automáticos</strong><div style="color:var(--muted);margin-top:8px">Gráficos e exportação em PDF</div></div>
+            <div class="card"><i data-lucide="users"></i><strong>Multiusuário</strong><div style="color:var(--muted);margin-top:8px">Controle de acessos para sua equipe</div></div>
+            <div class="card"><i data-lucide="shield"></i><strong>Segurança</strong><div style="color:var(--muted);margin-top:8px">Autenticação e dados criptografados</div></div>
+          </div>
+        </div>
+
+        <!-- Carrossel -->
+        <aside class="screenshot carousel">
+          <div class="carousel-track">
+            <img src="imagens/LOGIN.png" alt="Dashboard do MoneyOne">
+            <img src="imagens/RELATORIO .png" alt="Resumo Financeiro">
+            <img src="imagens/GRAFICOS.png" alt="Relatórios do sistema">
+          </div>
+          <button class="carousel-btn prev">&#10094;</button>
+          <button class="carousel-btn next">&#10095;</button>
+          <div class="carousel-dots"></div>
+        </aside>
+      </section>
+
+      <!-- Features -->
+      <section id="features" class="section">
+        <div class="container grid-2">
+          <div>
+            <h2>Por que escolher o MoneyOne?</h2>
+            <p style="color:var(--muted)">Foque no que importa: fazer crescer seu negócio. Deixe a contabilidade diária com a gente.</p>
+            <ul class="bullets">
+              <li><i data-lucide="check-circle"></i> Cadastro rápido de receitas e despesas</li>
+              <li><i data-lucide="file-bar-chart"></i> Relatórios mensais automáticos com exportação</li>
+              <li><i data-lucide="lock"></i> Acesso seguro via login e permissões por usuário</li>
+              <li><i data-lucide="zap"></i> Configuração rápida: pronto para uso em minutos</li>
+            </ul>
+          </div>
+          <div>
+            <div class="testimonial">
+              <div style="display:flex;align-items:center;gap:14px;">
+                <img src="imagens/GERE UMA IMAGEN DE CLIENTE PARA POR NO SITE QUE ESTOU CONSTRUINDO.jpg" alt="Foto cliente Joana" class="avatar">
+                <div>
+                  <strong>“O MoneyOne mudou a forma como eu trabalho.”</strong>
+                  <p style="color:var(--muted);margin-top:6px">— Joana M., microempreendedora</p>
+                </div>
+              </div>
+            </div>
+            <div style="height:18px"></div>
+            <div class="testimonial">
+              <div style="display:flex;align-items:center;gap:14px;">
+                <img src="imagens/GERE UMA IMAGEN DE CLIENTE HOMEM PARA POR NO SITE QUE ESTOU CONSTRUINDO.jpg" alt="Foto cliente usuário" class="avatar">
+                <div>
+                  <strong>100% online</strong>
+                  <p style="color:var(--muted);margin-top:6px">Acesse de qualquer dispositivo, sem instalar nada.</p>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- Segurança -->
+      <section class="section" style="text-align:center">
+        <h2>Confiança em primeiro lugar</h2>
+        <p style="color:var(--muted)">Seus dados são protegidos com criptografia e autenticação de alto nível.</p>
+        <div style="margin-top:20px;display:flex;gap:20px;justify-content:center;flex-wrap:wrap">
+          <div class="card"><i data-lucide="lock"></i> Proteção SSL</div>
+          <div class="card"><i data-lucide="shield-check"></i> Garantia de Privacidade</div>
+          <div class="card"><i data-lucide="headphones"></i> Suporte dedicado</div>
+        </div>
+      </section>
+
+      <!-- Pricing -->
+      <section id="pricing" class="section">
+        <div class="container">
+          <h2>Planos</h2>
+          <p style="color:var(--muted)">Escolha o plano que cabe no seu negócio. Comece no grátis e escale quando precisar.</p>
+          <div class="pricing" style="margin-top:16px">
+            
+            <!-- Plano Anual -->
+            <div class="plan destacado">
+              <div class="etiqueta-popular">Mais Popular</div>
+              <div class="selo-desconto">-67%</div>
+              <h1>Plano Anual</h1>
+              <p style="font-weight:800;font-size:20px;color:var(--muted)">Por apenas</p>
+              <p style="font-weight:900;font-size:34px;color:#16a34a;padding:8px 16px;border-radius:10px;display:inline-block;margin:6px 0">R$ 39,99</p>
+              <p class="valor-antigo">De R$ 119,90</p>
+              <ul style="color:var(--muted);margin:18px 0">
+                <li>✔ Acesso ilimitado</li>
+                <li>✔ Relatórios completos</li>
+                <li>✔ Suporte a qualquer momento</li>
+              </ul>
+              <a href="https://pay.kiwify.com.br/rnMjuCC" target="_blank" class="btn">Assinar</a>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- FAQ -->
+      <section id="faq" class="section">
+        <div class="container">
+          <h2>Dúvidas Frequentes</h2>
+          <div class="faq">
+            <div class="faq-item">
+              <h3>O MoneyOne substitui planilhas de Excel?</h3>
+              <p>Sim. Nossa plataforma é mais prática, segura e automatizada que qualquer planilha.</p>
+            </div>
+            <div class="faq-item">
+              <h3>Posso acessar do celular?</h3>
+              <p>Sim. O MoneyOne é 100% online e funciona em computadores, tablets e smartphones.</p>
+            </div>
+            <div class="faq-item">
+              <h3>Meus dados ficam seguros?</h3>
+              <p>Sim. Usamos criptografia e protocolos de segurança avançados.</p>
+            </div>
+          </div>
+        </div>
+      </section>
+    </main>
+
+    <footer id="contact">
+      <div class="container">
+        <p>&copy; 2025 MoneyOne. Todos os direitos reservados.</p>
+      </div>
+    </footer>
+  </div>
+
+  <!-- WhatsApp -->
+  <a href="https://wa.me/5547999566514" class="whatsapp-float" target="_blank" aria-label="Fale no WhatsApp">
+    <i data-lucide="message-circle"></i>
+  </a>
+
+  <script>
+    // Intro
+    window.addEventListener('load',()=>setTimeout(()=>document.getElementById('intro').classList.add('hidden'),1800));
+
+    // Menu
+    document.getElementById('menu-toggle').onclick=()=>document.getElementById('menu').classList.toggle('show');
+
+    // Carousel
+    const track=document.querySelector('.carousel-track');
+    const slides=Array.from(track.children);
+    const nextBtn=document.querySelector('.carousel-btn.next');
+    const prevBtn=document.querySelector('.carousel-btn.prev');
+    const dotsNav=document.querySelector('.carousel-dots');
+    let currentIndex=0;
+    slides.forEach((_,i)=>{const btn=document.createElement('button');if(i===0)btn.classList.add('active');dotsNav.appendChild(btn);});
+    const dots=Array.from(dotsNav.children);
+    function moveTo(i){track.style.transform=`translateX(-${i*100}%)`;dots.forEach(d=>d.classList.remove('active'));dots[i].classList.add('active');currentIndex=i;}
+    nextBtn.onclick=()=>moveTo((currentIndex+1)%slides.length);
+    prevBtn.onclick=()=>moveTo((currentIndex-1+slides.length)%slides.length);
+    dots.forEach((b,i)=>b.onclick=()=>moveTo(i));
+    setInterval(()=>moveTo((currentIndex+1)%slides.length),5000);
+
+    // FAQ
+    document.querySelectorAll('.faq-item').forEach(item=>{
+      item.addEventListener('click',()=>item.classList.toggle('active'));
+    });
+
+    lucide.createIcons();
+  </script>
+</body>
+</html>
